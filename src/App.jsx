@@ -8,6 +8,7 @@ import InputCity from "./components/InputCity";
 import ToggleMode from "./components/ToggleMode";
 import Card from "./components/Card";
 import ButtonChange from "./components/ButtonChange";
+import Loader from "./components/Loader";
 
 const App = () => {
   const [country, setCountry] = useState("");
@@ -15,6 +16,7 @@ const App = () => {
   const [modeTemp, setModeTemp] = useState("");
   const [valueTemp, setValueTemp] = useState(0);
   const [darkMode, setDarkMode] = useState(false);
+  const [isLoding, setIsLoding] = useState(false);
   const [weather, setWeather] = useState({});
   const [weatherFilters, setWeatherFilters] = useState({
     lat: null,
@@ -39,6 +41,7 @@ const App = () => {
 
   const getCurrentWeatherData = async () => {
     try {
+      setIsLoding(true);
       const responseWeather = await currentWeather(weatherFilters);
       const responseContry = await getCountry(responseWeather.sys.country);
       setWeather(responseWeather);
@@ -48,7 +51,7 @@ const App = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      console.log("final");
+      setIsLoding(false);
     }
   };
 
@@ -127,17 +130,30 @@ const App = () => {
   }, [weatherFilters]);
 
   return (
-    <div className="container">
-      <TitleApp title="Weather App" />
-      <div className="content-ipt-search">
-        <InputCity onChange={handleIptSearchChange} onKeyDown={handleKeyDown} />
-      </div>
-      <div className="content-toggle-mode">
-        <ToggleMode state={darkMode} toggleDarkMode={toggleDarkMode} />
-      </div>
-      <Card data={weather} valueTemp={valueTemp} country={country} />
-      <ButtonChange changeModeTemp={changeModeTemp} modeTemp={modeTemp} />
-    </div>
+    <>
+      {!isLoding && (
+        <div className="container">
+          <TitleApp title="Weather App" />
+          <div className="content-ipt-search">
+            <InputCity
+              isLoding={isLoding}
+              onChange={handleIptSearchChange}
+              onKeyDown={handleKeyDown}
+            />
+          </div>
+          <div className="content-toggle-mode">
+            <ToggleMode state={darkMode} toggleDarkMode={toggleDarkMode} />
+          </div>
+          <Card data={weather} valueTemp={valueTemp} country={country} />
+          <ButtonChange changeModeTemp={changeModeTemp} modeTemp={modeTemp} />
+        </div>
+      )}
+      {isLoding && (
+        <div className="container">
+          <Loader />
+        </div>
+      )}
+    </>
   );
 };
 
