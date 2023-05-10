@@ -101,6 +101,11 @@ const App = () => {
     setModeTemp(modeTemp === "CTF" ? "FTC" : "CTF");
   };
 
+  const toggleDarkMode = () => {
+    document.body.classList.toggle("dark-mode");
+    setDarkMode(!darkMode);
+  };
+
   useEffect(() => {
     currentGelocation();
   }, []);
@@ -128,7 +133,7 @@ const App = () => {
         <InputCity onChange={handleIptSearchChange} onKeyDown={handleKeyDown} />
       </div>
       <div className="content-toggle-mode">
-        <ToggleMode state={darkMode} />
+        <ToggleMode state={darkMode} toggleDarkMode={toggleDarkMode} />
       </div>
       <Card data={weather} valueTemp={valueTemp} country={country} />
       <ButtonChange changeModeTemp={changeModeTemp} modeTemp={modeTemp} />

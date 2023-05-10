@@ -1,10 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const ToggleMode = ({ state }) => {
+const ToggleMode = ({ state, toggleDarkMode }) => {
   return (
-    <button type="button">
-      <box-icon name={state ? "sun" : "moon"} />
+    <button type="button" onClick={toggleDarkMode}>
+      <box-icon
+        animation="tada"
+        color={state ? "yellow" : "white"}
+        name={state ? "sun" : "moon"}
+      />
     </button>
   );
 };

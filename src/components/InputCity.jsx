@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const InputCity = ({ onChange, onKeyDown }) => {
   return (
     <div className="form-group">
-      <box-icon name="search" color="white" />
+      <box-icon name="search" color="white" size="20px" animation="tada" />
       <input
         type="search"
         name="iptSearchCity"
