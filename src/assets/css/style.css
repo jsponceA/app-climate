@@ -137,10 +137,11 @@ input:focus {
   padding: 10px;
   grid-column: 2/3;
   width: 350px;
-  height: auto;
+  height: 350px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  border-top-right-radius: 60%;
 }
 
 .content-temp p {

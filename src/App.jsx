@@ -25,18 +25,17 @@ const App = () => {
   });
 
   const currentGelocation = async () => {
-    const responseCurrentLocation = await getCurrentPosition();
-    if (!responseCurrentLocation) {
-      console.error(
-        "Su navegador no permite gelocalización, o asigne los permisos necesario y actualize."
-      );
-      return;
+    try {
+      const responseCurrentLocation = await getCurrentPosition();
+      setWeatherFilters((prev) => ({
+        ...prev,
+        lat: responseCurrentLocation.latitude,
+        lon: responseCurrentLocation.longitude,
+      }));
+    } catch (error) {
+      console.log(error);
+      setIsLoding(true);
     }
-    setWeatherFilters((prev) => ({
-      ...prev,
-      lat: responseCurrentLocation.latitude,
-      lon: responseCurrentLocation.longitude,
-    }));
   };
 
   const getCurrentWeatherData = async () => {
@@ -144,7 +143,12 @@ const App = () => {
           <div className="content-toggle-mode">
             <ToggleMode state={darkMode} toggleDarkMode={toggleDarkMode} />
           </div>
-          <Card data={weather} valueTemp={valueTemp} country={country} />
+          <Card
+            data={weather}
+            valueTemp={valueTemp}
+            country={country}
+            modeTemp={modeTemp}
+          />
           <ButtonChange changeModeTemp={changeModeTemp} modeTemp={modeTemp} />
         </div>
       )}
